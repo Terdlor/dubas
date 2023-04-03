@@ -10,7 +10,7 @@ spring:
         trace: false
         web-allow-others: false
   datasource:
-    url: jdbc:h2:file:./data/testdb
+    url: jdbc:h2:file:./data/dubasdb
     username: sa
     password: 111
   jpa:
