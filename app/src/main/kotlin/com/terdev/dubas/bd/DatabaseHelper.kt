@@ -27,7 +27,7 @@ class DatabaseHelper private constructor() {
         private val password: String = "111"
 
         @Value("\${spring.datasource.url}")
-        private val url: String = "jdbc:h2:file:./data/testdb"
+        private val url: String = "jdbc:h2:file:./data/dubasdb"
 
         private var connectionSource: JdbcPooledConnectionSource? = null
 

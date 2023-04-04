@@ -38,7 +38,7 @@ class BotApp : TelegramLongPollingBot() {
     override fun onUpdateReceived(update: Update) {
         val dateCurrentLocalStart = Date()
 
-        com.terdev.dubas.BotApp.Companion.foo = botName
+        foo = botName
 
         if (update.message == null) {
             //TODO
@@ -63,17 +63,6 @@ class BotApp : TelegramLongPollingBot() {
                 for (documentWork in documentWorkers) {
                     if (documentWork is DocumentWork && documentWork.work(update.message, msg)) return
                 }
-            }
-
-            if (update.message.chat.id > 0 &&
-                context.getBean("singlMessageWorkBean", SinglMessageWork::class.java).work(msg)
-            ) {
-                return
-            }
-            if (update.message.chat.id < 0 &&
-                context.getBean("groupMessageWorkBean", GroupMessageWork::class.java).work(msg)
-            ) {
-                return
             }
         } catch (ex: Exception) {
             val str = Печататель().дайException(ex)
