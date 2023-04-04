@@ -22,10 +22,10 @@ class BotApp : TelegramLongPollingBot() {
     private lateinit var context: ApplicationContext
 
     @Value("\${telegram.botName}")
-    private val botName: String = ""
+    private lateinit var botName: String
 
     @Value("\${telegram.token}")
-    private val token: String = ""
+    private lateinit var  token: String
 
     companion object {
         var foo: String = "botName"
