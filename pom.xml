@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>app</module>
+		<module>liquibase</module>
 	</modules>
 
 	<groupId>com.terdev</groupId>
