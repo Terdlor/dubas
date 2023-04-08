@@ -2,7 +2,12 @@ package com.terdev.dubas.common
 
 import com.terdev.dubas.BotApp
 import com.terdev.dubas.bd.DatabaseHelper
-import com.terdev.dubas.utils.*
+import com.terdev.dubas.utils.GroupResponseHelper
+import com.terdev.dubas.utils.LogHelper
+import com.terdev.dubas.utils.RequestHelper
+import com.terdev.dubas.utils.SinglResponseHelper
+import com.terdev.dubas.utils.println
+import com.terdev.dubas.utils.Печататель
 import org.springframework.beans.factory.annotation.Autowired
 import org.telegram.telegrambots.meta.api.objects.Message
 import java.io.File

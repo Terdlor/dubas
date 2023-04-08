@@ -85,9 +85,9 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) :
         val resultArray: GenericRawResults<Array<String>> =
             super.queryRaw(
                 "select \"FROM\", count(*) from MESSAGE where " +
-                        strBuild.toString() +
-                        " and INSERT_DATE > CURRENT_TIMESTAMP() - INTERVAL $delay MINUTE " +
-                        " group by \"FROM\""
+                    strBuild.toString() +
+                    " and INSERT_DATE > CURRENT_TIMESTAMP() - INTERVAL $delay MINUTE " +
+                    " group by \"FROM\""
             )
         for (result in resultArray) {
             val userDao = DatabaseHelper.getUserDao()

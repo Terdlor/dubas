@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.terdev.dubas.bd.DatabaseHelper
 import com.terdev.dubas.common.CommandWork
 import org.springframework.stereotype.Component
+import org.telegram.telegrambots.meta.api.objects.Message
 import java.io.File
 import java.nio.file.Paths
 import java.text.SimpleDateFormat
@@ -31,5 +32,9 @@ class GetBrandWork : CommandWork() {
         file.writeText(gsonPretty.toJson(brandList))
 
         sendFile(msgBd.chat, file)
+    }
+
+    override fun commandWork(msg: Message) {
+
     }
 }

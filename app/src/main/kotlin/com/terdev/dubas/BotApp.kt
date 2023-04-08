@@ -6,7 +6,7 @@ import com.terdev.dubas.common.DocumentWork
 import com.terdev.dubas.utils.LogHelper
 import com.terdev.dubas.utils.SinglResponseHelper
 import com.terdev.dubas.utils.Печататель
-import com.terdev.dubas.worker.*
+import com.terdev.dubas.worker.HelpWork
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
@@ -25,7 +25,7 @@ class BotApp : TelegramLongPollingBot() {
     private lateinit var botName: String
 
     @Value("\${telegram.token}")
-    private lateinit var  token: String
+    private lateinit var token: String
 
     companion object {
         var foo: String = "botName"
@@ -36,6 +36,15 @@ class BotApp : TelegramLongPollingBot() {
     override fun getBotToken(): String = token
 
     override fun onUpdateReceived(update: Update) {
+        val commandWorkers = context.getBean("commandWorkers")
+        if (commandWorkers is List<*>) {
+            for (commandWork in commandWorkers) {
+                if (commandWork is CommandWork && commandWork.work(update.message, com.terdev.dubas.bd.chat.model.Message())) return
+            }
+        }
+    }
+
+    fun onUpdateReceivedNoWork(update: Update) {
         val dateCurrentLocalStart = Date()
 
         foo = botName

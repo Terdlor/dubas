@@ -77,7 +77,7 @@ class HelpWork {
         val entity: MessageEntity? =
             msg.entities.stream().filter { en ->
                 en.type == "bot_command" &&
-                        (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo))
+                    (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo))
             }.findAny().orElse(null)
         if (entity != null) {
             commandWork(msgBd)

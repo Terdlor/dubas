@@ -16,7 +16,7 @@ abstract class DocumentWork : Work() {
         val entity: MessageEntity? =
             msg.captionEntities.stream().filter { en ->
                 en.type == "bot_command" &&
-                        (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo))
+                    (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo))
             }.findAny().orElse(null)
         if (entity != null) {
             commandWork(msgBd, msg.document)
