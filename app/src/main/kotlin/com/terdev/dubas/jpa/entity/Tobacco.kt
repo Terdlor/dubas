@@ -1,4 +1,4 @@
-package com.terdev.dubas.jpa
+package com.terdev.dubas.jpa.entity
 
 import lombok.Data
 import java.util.*
@@ -38,6 +38,6 @@ class Tobacco {
     @Column(name = NAME, nullable = false)
     var name: String? = null
 
-    @Column(name = INSERT_DATE, nullable = false)
+    @Column(name = INSERT_DATE)
     var insert_date: Date? = null
 }

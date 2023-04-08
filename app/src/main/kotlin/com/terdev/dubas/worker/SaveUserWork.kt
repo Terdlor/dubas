@@ -1,6 +1,8 @@
-package com.terdev.dubas.jpa
+package com.terdev.dubas.worker
 
 import com.terdev.dubas.common.CommandWork
+import com.terdev.dubas.jpa.entity.User
+import com.terdev.dubas.jpa.dao.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message

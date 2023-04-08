@@ -17,15 +17,15 @@ import javax.sql.DataSource
 
 
 @Configuration
-@EnableJpaRepositories("com.terdev.dubas.jpa")
-@EntityScan("com.terdev.dubas.jpa")
+@EnableJpaRepositories("com.terdev.dubas.jpa.dao")
+@EntityScan("com.terdev.dubas.jpa.entity")
 class JpaConfig {
 
     @Bean
     fun entityManagerFactory(dataSource: DataSource?): LocalContainerEntityManagerFactoryBean? {
         val emf = LocalContainerEntityManagerFactoryBean()
         emf.dataSource = dataSource!!
-        emf.setPackagesToScan("com.terdev.dubas.jpa")
+        emf.setPackagesToScan("com.terdev.dubas.jpa.entity")
         val vendorAdapter: JpaVendorAdapter = HibernateJpaVendorAdapter()
         emf.jpaVendorAdapter = vendorAdapter
         val properties = Properties()
