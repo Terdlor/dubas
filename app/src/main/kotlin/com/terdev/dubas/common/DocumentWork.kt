@@ -8,9 +8,9 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity
 
 abstract class DocumentWork : Work() {
 
-    abstract fun commandWork(msgBd: com.terdev.dubas.bd.chat.model.Message, doc: Document)
+    abstract fun commandWork(doc: Document)
 
-    override fun checkWork(msg: Message, msgBd: com.terdev.dubas.bd.chat.model.Message): Boolean {
+    override fun checkWork(msg: Message): Boolean {
         if (msg.document == null) return false
         if (msg.captionEntities == null) return false
         val entity: MessageEntity? =
@@ -19,7 +19,7 @@ abstract class DocumentWork : Work() {
                     (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo))
             }.findAny().orElse(null)
         if (entity != null) {
-            commandWork(msgBd, msg.document)
+            commandWork(msg.document)
             return true
         }
         return false

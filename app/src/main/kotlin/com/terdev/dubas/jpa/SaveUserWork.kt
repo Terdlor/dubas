@@ -17,10 +17,6 @@ class SaveUserWork : CommandWork() {
     @Autowired
     lateinit var rep: UserRepository
 
-    override fun commandWork(msgBd: com.terdev.dubas.bd.chat.model.Message) {
-
-    }
-
     override fun commandWork(msg: Message) {
         val user = User()
         user.id = msg.from.id

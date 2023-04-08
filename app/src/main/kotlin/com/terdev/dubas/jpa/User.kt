@@ -7,6 +7,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 
 
@@ -16,6 +17,8 @@ import javax.persistence.Table
 class User {
 
     companion object {
+        const val generator = "SQ_DBS_USER_DBS_USER_ID"
+
         const val ID: String = "id"
         const val FIRST_NAME: String = "first_name"
         const val IS_BOT: String = "is_bot"
@@ -25,7 +28,8 @@ class User {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator1")
+    @SequenceGenerator(name = "generator1", sequenceName = generator, allocationSize = 1)
     var DBS_USER_ID: Long? = null
 
     @Column(name = ID, nullable = false)

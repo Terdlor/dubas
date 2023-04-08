@@ -1,7 +1,6 @@
 package com.terdev.dubas.worker
 
 import com.terdev.dubas.BotApp
-import com.terdev.dubas.bd.DatabaseHelper
 import com.terdev.dubas.common.CommandWork
 import com.terdev.dubas.common.DocumentWork
 import com.terdev.dubas.common.TextException
@@ -40,7 +39,7 @@ class HelpWork {
     var command = "help"
     var commandDesc = "Список команд"
 
-    fun commandWork(msgBd: com.terdev.dubas.bd.chat.model.Message) {
+    fun commandWork() {
 
         val strBuild = StringBuilder()
         strBuild.appendLine("Список команд:")
@@ -57,22 +56,10 @@ class HelpWork {
         }
 
         // Выводим ответ в консоль
-        println(
-            msgBd.text + " отправил " + DatabaseHelper.getUserDao()
-                .findById(msgBd.from)?.userName + ", чат " + msgBd.chat + " в " + Date()
-        )
         println(strBuild.toString())
-
-        // Выводим ответ в чат телеги
-        sendNotification(msgBd.chat, strBuild.toString())
-
-        // Логируем
-        msgBd.rs = strBuild.toString()
-        msgBd.rs_chat_id = msgBd.chat.toString()
-        DatabaseHelper.getMessageDao().update(msgBd)
     }
 
-    fun checkWork(msg: Message, msgBd: com.terdev.dubas.bd.chat.model.Message): Boolean {
+    fun checkWork(msg: Message): Boolean {
         if (msg.entities == null) return false
         val entity: MessageEntity? =
             msg.entities.stream().filter { en ->
@@ -80,25 +67,23 @@ class HelpWork {
                     (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo))
             }.findAny().orElse(null)
         if (entity != null) {
-            commandWork(msgBd)
+            commandWork()
             return true
         }
         return false
     }
 
-    fun work(msg: Message, msgBd: com.terdev.dubas.bd.chat.model.Message): Boolean {
+    fun work(msg: Message): Boolean {
         try {
-            return checkWork(msg, msgBd)
+            return checkWork(msg)
         } catch (ex: Exception) {
             return if (ex is TextException) {
                 println("Нормальная ошибка - " + ex.msg)
-                log.saveLog(ex.msg, "НОРМ_ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
                 sendNotification(msg.chat.id, ex.msg)
                 true
             } else {
                 val str = Печататель().дайException(ex)
                 println(str)
-                log.saveLog(str, "ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
                 sendNotification(msg.chat.id, str, msg.messageId)
                 false
             }

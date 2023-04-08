@@ -1,7 +1,6 @@
 package com.terdev.dubas.common
 
 import com.terdev.dubas.BotApp
-import com.terdev.dubas.bd.DatabaseHelper
 import com.terdev.dubas.utils.GroupResponseHelper
 import com.terdev.dubas.utils.LogHelper
 import com.terdev.dubas.utils.RequestHelper
@@ -30,21 +29,19 @@ abstract class Work {
     abstract var command: String
     abstract var commandDesc: String
 
-    abstract fun checkWork(msg: Message, msgBd: com.terdev.dubas.bd.chat.model.Message): Boolean
+    abstract fun checkWork(msg: Message): Boolean
 
-    fun work(msg: Message, msgBd: com.terdev.dubas.bd.chat.model.Message): Boolean {
+    fun work(msg: Message): Boolean {
         try {
-            return checkWork(msg, msgBd)
+            return checkWork(msg)
         } catch (ex: Exception) {
             return if (ex is TextException) {
                 println("Нормальная ошибка - " + ex.msg)
-                log.saveLog(ex.msg, "НОРМ_ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
                 sendNotification(msg.chat.id, ex.msg)
                 true
             } else {
                 val str = Печататель().дайException(ex)
                 println(str)
-                log.saveLog(str, "ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
                 sendNotification(msg.chat.id, str, msg.messageId)
                 false
             }
