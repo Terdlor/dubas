@@ -2,6 +2,7 @@ package com.terdev.dubas.jpa
 
 
 import lombok.Data
+import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -19,12 +20,13 @@ class User {
     companion object {
         const val generator = "SQ_DBS_USER_DBS_USER_ID"
 
-        const val ID: String = "id"
-        const val FIRST_NAME: String = "first_name"
-        const val IS_BOT: String = "is_bot"
-        const val LAST_NAME: String = "last_name"
-        const val USER_NAME: String = "user_name"
-        const val LANGUAGE_CODE: String = "language_code"
+        const val ID: String = "ID"
+        const val FIRST_NAME: String = "FIRST_NAME"
+        const val IS_BOT: String = "IS_BOT"
+        const val LAST_NAME: String = "LAST_NAME"
+        const val USER_NAME: String = "USER_NAME"
+        const val LANGUAGE_CODE: String = "LANGUAGE_CODE"
+        const val INSERT_DATE: String = "INSERT_DATE"
     }
 
     @Id
@@ -50,4 +52,6 @@ class User {
     @Column(name = LANGUAGE_CODE, nullable = false)
     var languageCode: String? = null
 
+    @Column(name = INSERT_DATE, nullable = false)
+    var insert_date: Date? = null
 }
