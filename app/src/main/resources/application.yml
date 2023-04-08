@@ -13,6 +13,17 @@ spring:
     url: jdbc:h2:file:./data/dubasdb
     username: sa
     password: 111
+    hikari:
+      maximum-pool-size: 10
+      connection-test-query: select 1
+      connection-timeout: 1000
+      minimum-idle: 10
+      idle-timeout: 600000
+      max-lifetime: 180000
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5438/dubas
+      username: postgres
+      password: 1284
   jpa:
     show-sql: true
     properties:
@@ -21,4 +32,4 @@ spring:
         use_sql_comments: true
         format_sql: true
 server:
-  port: 8090
+  port: 8096
