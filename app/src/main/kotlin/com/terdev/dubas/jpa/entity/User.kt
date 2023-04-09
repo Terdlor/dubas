@@ -20,6 +20,7 @@ class User {
     companion object {
         const val generator = "SQ_DBS_USER_DBS_USER_ID"
 
+        const val DBS_USER_ID: String = "DBS_USER_ID"
         const val ID: String = "ID"
         const val FIRST_NAME: String = "FIRST_NAME"
         const val IS_BOT: String = "IS_BOT"
@@ -30,9 +31,10 @@ class User {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator1")
-    @SequenceGenerator(name = "generator1", sequenceName = generator, allocationSize = 1)
-    var DBS_USER_ID: Long? = null
+    @Column(name = DBS_USER_ID, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator_userId")
+    @SequenceGenerator(name = "generator_userId", sequenceName = generator, allocationSize = 1)
+    var userId: Long? = null
 
     @Column(name = ID, nullable = false)
     var id: Long? = null

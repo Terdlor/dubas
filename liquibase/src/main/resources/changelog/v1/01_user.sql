@@ -14,7 +14,8 @@ $$
             LAST_NAME     varchar(255),
             USER_NAME     varchar(255),
             LANGUAGE_CODE varchar(3),
-            INSERT_DATE   timestamp(6) default now()
+            INSERT_DATE   timestamp(6) default now(),
+            primary key (DBS_USER_ID)
         );
 
         create sequence SQ_DBS_USER_DBS_USER_ID increment 1 start with 1 cache 10;
