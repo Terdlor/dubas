@@ -2,12 +2,11 @@ package com.terdev.dubas
 
 import com.terdev.dubas.common.CommandWork
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.objects.Update
-import java.util.*
 
 @Service
 class BotApp : TelegramLongPollingBot() {
@@ -15,19 +14,12 @@ class BotApp : TelegramLongPollingBot() {
     @Autowired
     private lateinit var context: ApplicationContext
 
-    @Value("\${telegram.botName}")
-    private lateinit var botName: String
+    @Autowired
+    private lateinit var env: Environment
 
-    @Value("\${telegram.token}")
-    private lateinit var token: String
+    override fun getBotUsername(): String = env.getProperty("telegram.botName")!!
 
-    companion object {
-        var foo: String = "botName"
-    }
-
-    override fun getBotUsername(): String = botName
-
-    override fun getBotToken(): String = token
+    override fun getBotToken(): String = env.getProperty("telegram.token")!!
 
     override fun onUpdateReceived(update: Update) {
         val commandWorkers = context.getBean("commandWorkers")

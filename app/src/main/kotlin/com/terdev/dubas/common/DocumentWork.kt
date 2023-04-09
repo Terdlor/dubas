@@ -1,12 +1,16 @@
 package com.terdev.dubas.common
 
-import com.terdev.dubas.BotApp
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.telegram.telegrambots.meta.api.objects.Document
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.MessageEntity
 
 
 abstract class DocumentWork : Work() {
+
+    @Autowired
+    private lateinit var env: Environment
 
     abstract fun commandWork(doc: Document)
 
@@ -16,7 +20,7 @@ abstract class DocumentWork : Work() {
         val entity: MessageEntity? =
             msg.captionEntities.stream().filter { en ->
                 en.type == "bot_command" &&
-                    (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo))
+                    (en.text.equals("/$command") || en.text.equals("/$command@" + env.getProperty("telegram.botName")))
             }.findAny().orElse(null)
         if (entity != null) {
             commandWork(msg.document)

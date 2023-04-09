@@ -2,9 +2,10 @@ package com.terdev.dubas.jpa
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import org.springframework.boot.autoconfigure.domain.EntityScan
+import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.support.PropertiesLoaderUtils
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.JpaVendorAdapter
@@ -18,20 +19,24 @@ import javax.sql.DataSource
 
 @Configuration
 @EnableJpaRepositories("com.terdev.dubas.jpa.dao")
-@EntityScan("com.terdev.dubas.jpa.entity")
 class JpaConfig {
+
+    companion object {
+        const val PACKAGE_SCAN_ENTITY = "com.terdev.dubas.jpa.entity"
+    }
+
+    @Bean
+    fun getHibernateProperties() = PropertiesLoaderUtils.loadAllProperties("hibernate.properties")
+
 
     @Bean
     fun entityManagerFactory(dataSource: DataSource?): LocalContainerEntityManagerFactoryBean? {
         val emf = LocalContainerEntityManagerFactoryBean()
         emf.dataSource = dataSource!!
-        emf.setPackagesToScan("com.terdev.dubas.jpa.entity")
+        emf.setPackagesToScan(PACKAGE_SCAN_ENTITY)
         val vendorAdapter: JpaVendorAdapter = HibernateJpaVendorAdapter()
         emf.jpaVendorAdapter = vendorAdapter
-        val properties = Properties()
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
-        properties.setProperty("hibernate.show_sql", "true")
-        emf.setJpaProperties(properties)
+        emf.setJpaProperties(getHibernateProperties())
         return emf
     }
 
@@ -41,17 +46,10 @@ class JpaConfig {
     }
 
     @Bean
-    fun dataSource(): HikariDataSource? {
-        val config = HikariConfig()
-        config.jdbcUrl = "jdbc:postgresql://localhost:5438/postgres"
-        config.username = "postgres"
-        config.password = "1284"
-        config.maximumPoolSize = 20
-        config.minimumIdle = 10
-        config.connectionTimeout = 5000
-        config.idleTimeout = 600000
-        config.maxLifetime = 1800000
-        return HikariDataSource(config)
-    }
+    @ConfigurationProperties(prefix = "spring.datasource.hikari")
+    fun hikariConfig() = HikariConfig()
+
+    @Bean
+    fun dataSource() = HikariDataSource(hikariConfig())
 
 }

@@ -1,12 +1,12 @@
 package com.terdev.dubas.worker
 
-import com.terdev.dubas.BotApp
 import com.terdev.dubas.common.CommandWork
 import com.terdev.dubas.common.DocumentWork
 import com.terdev.dubas.common.TextException
 import com.terdev.dubas.utils.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.MessageEntity
@@ -15,6 +15,9 @@ import java.util.*
 
 @Component("helpWork")
 class HelpWork {
+
+    @Autowired
+    private lateinit var env: Environment
 
     @Autowired
     lateinit var rsSH: SinglResponseHelper
@@ -64,7 +67,7 @@ class HelpWork {
         val entity: MessageEntity? =
             msg.entities.stream().filter { en ->
                 en.type == "bot_command" &&
-                    (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo))
+                    (en.text.equals("/$command") || en.text.equals("/$command@" + env.getProperty("telegram.botName")))
             }.findAny().orElse(null)
         if (entity != null) {
             commandWork()
@@ -93,7 +96,7 @@ class HelpWork {
     fun getParam(msg: String?): String {
         if (msg == null)
             return ""
-        return msg.substringAfter("/$command@" + BotApp.foo).trim().substringAfter("/$command").trim()
+        return msg.substringAfter("/$command@" + env.getProperty("telegram.botName")).trim().substringAfter("/$command").trim()
     }
 
     fun sendNotification(id: Long, msg: String, msgId: Int) {

@@ -2,13 +2,6 @@ telegram:
   botName: ***
   token: ***
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /gadget-console
-      settings:
-        trace: false
-        web-allow-others: false
   datasource:
     hikari:
       maximum-pool-size: 10
