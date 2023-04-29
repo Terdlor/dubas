@@ -1,4 +1,4 @@
-package com.terdev.dubas.jpa
+package com.terdev.dubas.config
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource

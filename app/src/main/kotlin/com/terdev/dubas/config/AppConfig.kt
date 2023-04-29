@@ -1,4 +1,4 @@
-package com.terdev.dubas
+package com.terdev.dubas.config
 
 import com.terdev.dubas.common.CommandWork
 import com.terdev.dubas.common.DocumentWork

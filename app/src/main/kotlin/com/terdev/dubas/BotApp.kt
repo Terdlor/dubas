@@ -1,6 +1,7 @@
 package com.terdev.dubas
 
 import com.terdev.dubas.common.CommandWork
+import com.terdev.dubas.worker.HelpWork
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.core.env.Environment
@@ -22,6 +23,8 @@ class BotApp : TelegramLongPollingBot() {
     override fun getBotToken(): String = env.getProperty("telegram.token")!!
 
     override fun onUpdateReceived(update: Update) {
+        if (context.getBean("helpWork", HelpWork::class.java).work(update.message)) return
+
         val commandWorkers = context.getBean("commandWorkers")
         if (commandWorkers is List<*>) {
             for (commandWork in commandWorkers) {

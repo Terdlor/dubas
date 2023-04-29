@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
+import org.springframework.util.CollectionUtils
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.MessageEntity
 import java.io.File
@@ -42,24 +43,26 @@ class HelpWork {
     var command = "help"
     var commandDesc = "Список команд"
 
-    fun commandWork() {
+    fun commandWork(msg: Message) {
 
         val strBuild = StringBuilder()
         strBuild.appendLine("Список команд:")
 
-        strBuild.appendLine("Для сообщения:")
+        if (!CollectionUtils.isEmpty(commandWorkers)) strBuild.appendLine("Для сообщения:")
         for (commandWork in commandWorkers) {
             strBuild.appendLine("/" + commandWork.command + " - " + commandWork.commandDesc)
         }
         strBuild.appendLine("/$command - $commandDesc")
 
-        strBuild.appendLine("Для файла:")
+        if (!CollectionUtils.isEmpty(documentWorkers)) strBuild.appendLine("Для файла:")
         for (documentWork in documentWorkers) {
             strBuild.appendLine("/" + documentWork.command + " - " + documentWork.commandDesc)
         }
 
         // Выводим ответ в консоль
         println(strBuild.toString())
+
+        sendNotification(msg.chatId, strBuild.toString())
     }
 
     fun checkWork(msg: Message): Boolean {
@@ -70,7 +73,7 @@ class HelpWork {
                     (en.text.equals("/$command") || en.text.equals("/$command@" + env.getProperty("telegram.botName")))
             }.findAny().orElse(null)
         if (entity != null) {
-            commandWork()
+            commandWork(msg)
             return true
         }
         return false
