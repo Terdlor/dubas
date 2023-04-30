@@ -40,7 +40,7 @@ class Brand {
     @Column(name = HAS_LINE, nullable = false)
     var hasLines: Boolean = false
 
-    @Column(name = INSERT_DATE)
+    @Column(name = INSERT_DATE, insertable = false)
     var insert_date: Date? = null
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "brand", cascade = arrayOf(CascadeType.ALL))

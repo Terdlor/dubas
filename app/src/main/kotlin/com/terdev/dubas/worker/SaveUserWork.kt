@@ -21,7 +21,7 @@ class SaveUserWork : CommandWork() {
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss")
 
     @Autowired
-    lateinit var userrRepository: UserRepository
+    lateinit var userRepository: UserRepository
 
     @Autowired
     lateinit var brandRepository: BrandRepository
@@ -35,7 +35,7 @@ class SaveUserWork : CommandWork() {
         user.userName = msg.from.userName
         user.languageCode = msg.from.languageCode
 
-        userrRepository.save(user)
+        userRepository.save(user)
 
         val brand = Brand()
         brand.name = "brand"

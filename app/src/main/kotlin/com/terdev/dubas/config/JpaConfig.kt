@@ -1,5 +1,7 @@
 package com.terdev.dubas.config
 
+import com.terdev.dubas.config.JpaConfig.Companion.PACKAGE_SCAN_DBS_DAO
+import com.terdev.dubas.config.JpaConfig.Companion.PACKAGE_SCAN_RR_DAO
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -18,11 +20,15 @@ import javax.sql.DataSource
 
 
 @Configuration
-@EnableJpaRepositories("com.terdev.dubas.jpa.dao")
+@EnableJpaRepositories(PACKAGE_SCAN_DBS_DAO, PACKAGE_SCAN_RR_DAO)
 class JpaConfig {
 
     companion object {
-        const val PACKAGE_SCAN_ENTITY = "com.terdev.dubas.jpa.entity"
+        const val PACKAGE_SCAN_DBS_DAO = "com.terdev.dubas.jpa.dao"
+        const val PACKAGE_SCAN_RR_DAO = "com.terdev.rolrul.jpa.dao"
+
+        const val PACKAGE_SCAN_DBS_ENTITY = "com.terdev.dubas.jpa.entity"
+        const val PACKAGE_SCAN_RR_ENTITY = "com.terdev.rolrul.jpa.entity"
     }
 
     @Bean
@@ -33,7 +39,7 @@ class JpaConfig {
     fun entityManagerFactory(dataSource: DataSource?): LocalContainerEntityManagerFactoryBean? {
         val emf = LocalContainerEntityManagerFactoryBean()
         emf.dataSource = dataSource!!
-        emf.setPackagesToScan(PACKAGE_SCAN_ENTITY)
+        emf.setPackagesToScan(PACKAGE_SCAN_DBS_ENTITY, PACKAGE_SCAN_RR_ENTITY)
         val vendorAdapter: JpaVendorAdapter = HibernateJpaVendorAdapter()
         emf.jpaVendorAdapter = vendorAdapter
         emf.setJpaProperties(getHibernateProperties())

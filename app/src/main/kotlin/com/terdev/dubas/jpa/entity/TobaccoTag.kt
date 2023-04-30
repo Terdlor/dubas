@@ -41,6 +41,6 @@ class TobaccoTag {
     @JoinColumn(name = ID_TAG, referencedColumnName = Tag.DBS_TAG_ID)
     var tag: Tag? = null
 
-    @Column(name = INSERT_DATE)
+    @Column(name = INSERT_DATE, insertable = false)
     var insert_date: Date? = null
 }

@@ -47,7 +47,7 @@ class Tobacco {
     @Column(name = NAME, nullable = false)
     var name: String? = null
 
-    @Column(name = INSERT_DATE)
+    @Column(name = INSERT_DATE, insertable = false)
     var insert_date: Date? = null
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tobacco", cascade = arrayOf(CascadeType.ALL))

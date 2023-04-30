@@ -17,6 +17,13 @@ $$
         drop sequence if exists SQ_DBS_TAG_DBS_TAG_ID;
         drop sequence if exists SQ_DBS_TOBACCO_DBS_TOBACCO_ID;
         drop sequence if exists SQ_DBS_TOBACCO_TAG_DBS_TOBACCO_TAG_ID;
+
+        drop table if exists RR_ROLE;
+        drop table if exists RR_RULE;
+        drop table if exists RR_ROLE_RULE;
+        drop sequence if exists SQ_RR_ROLE_RR_ROLE_ID;
+        drop sequence if exists SQ_RR_RULE_RR_RULE_ID;
+        drop sequence if exists SQ_RR_ROLE_RULE_RR_ROLE_RULE_ID;
     end
 $$
 ;

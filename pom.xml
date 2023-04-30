@@ -12,6 +12,7 @@
     </parent>
 
     <modules>
+        <module>rol-rul</module>
         <module>app</module>
         <module>liquibase</module>
     </modules>
