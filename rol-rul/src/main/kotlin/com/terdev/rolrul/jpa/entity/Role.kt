@@ -31,7 +31,7 @@ class Role {
     @Column(name = RR_ROLE_ID, nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator_roleId")
     @SequenceGenerator(name = "generator_roleId", sequenceName = generator, allocationSize = 1)
-    var ruleId: Long? = null
+    var roleId: Long? = null
 
     @Column(name = IS_ADMIN, nullable = false, insertable = false)
     var isAdmin: Boolean? = null

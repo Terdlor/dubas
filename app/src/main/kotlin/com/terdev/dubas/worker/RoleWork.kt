@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
 import java.text.SimpleDateFormat
-import javax.transaction.Transactional
 
 @Component("roleWork")
 class RoleWork : CommandWork() {
@@ -25,7 +24,6 @@ class RoleWork : CommandWork() {
     @Autowired
     lateinit var userService: UserService
 
-    @Transactional
     override fun commandWork(msg: Message) {
         val user = userService.getUser(msg.from)
 
@@ -35,6 +33,7 @@ class RoleWork : CommandWork() {
 
         roleRuleService.addRuleInRole(Roles.ADMIN, RuleKeys.GET_BRENDS)
         roleRuleService.checkRuleInRole(user.role, RuleKeys.GET_BRENDS)
+        roleRuleService.deleteRuleInRole(Roles.ADMIN, RuleKeys.GET_BRENDS)
 
         roleRuleService.getRuleFromRole(user.role).forEach {
             strBuild.appendLine("право - " + it.getKey())

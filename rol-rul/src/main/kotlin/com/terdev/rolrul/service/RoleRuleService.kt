@@ -11,6 +11,7 @@ import com.terdev.rolrul.jpa.entity.RoleRule
 import com.terdev.rolrul.jpa.entity.Rule
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Component
@@ -50,16 +51,18 @@ class RoleRuleService {
         }
     }
 
+    @Transactional
     fun addRuleInRole(roleName: String?, ruleKeys: RuleInterface) {
         if (roleName == null) throw RolRulException("Невозможно добавить в пустую роль")
         addRuleInRoleDb(getRole(roleName), ruleKeys)
     }
 
+    @Transactional
     fun addRuleInRole(roles: RoleInterface, ruleKeys: RuleInterface) {
         addRuleInRoleDb(getRole(roles), ruleKeys)
     }
 
-    private fun addRuleInRoleDb(role: Role,  ruleKeys: RuleInterface) {
+    private fun addRuleInRoleDb(role: Role, ruleKeys: RuleInterface) {
         val rule = getRule(ruleKeys)
         if ((role.roleRule?.filter { it.rule?.ruleId == rule.ruleId }?.count() ?: 0) <= 0) {
             val ruleRole = RoleRule()
@@ -69,8 +72,24 @@ class RoleRuleService {
         }
     }
 
+    @Transactional
+    fun deleteRuleInRole(roleName: String?, ruleKeys: RuleInterface) {
+        if (roleName == null) throw RolRulException("Невозможно удалить из пустуой роль")
+        deleteRuleInRoleDb(getRole(roleName), ruleKeys)
+    }
+
+    @Transactional
+    fun deleteRuleInRole(roles: RoleInterface, ruleKeys: RuleInterface) {
+        deleteRuleInRoleDb(getRole(roles), ruleKeys)
+    }
+
+    private fun deleteRuleInRoleDb(role: Role, ruleKeys: RuleInterface) {
+        val rule = getRule(ruleKeys)
+        ruleRoleRepository.deleteAllByRoleAndRule(role.roleId, rule.ruleId)
+    }
+
     fun checkRuleInRole(roles: RoleInterface, ruleKeys: RuleInterface): Boolean {
-        return  checkRuleInRoleDb(getRole(roles), ruleKeys)
+        return checkRuleInRoleDb(getRole(roles), ruleKeys)
     }
 
     fun checkRuleInRole(roleName: String?, ruleKeys: RuleInterface): Boolean {
@@ -78,7 +97,8 @@ class RoleRuleService {
         return checkRuleInRoleDb(getRole(roleName), ruleKeys)
     }
 
-    private fun checkRuleInRoleDb(role: Role, ruleKeys: RuleInterface) : Boolean{
+    private fun checkRuleInRoleDb(role: Role, ruleKeys: RuleInterface): Boolean {
+        if (role.isAdmin == true) return true
         val rule = getRule(ruleKeys)
         return (role.roleRule?.filter { it.rule?.ruleId == rule.ruleId }?.count() ?: 0) > 0
     }
