@@ -27,7 +27,7 @@ class User {
         const val LAST_NAME: String = "LAST_NAME"
         const val USER_NAME: String = "USER_NAME"
         const val LANGUAGE_CODE: String = "LANGUAGE_CODE"
-        const val ID_ROLE: String = "ID_ROLE"
+        const val ROLE: String = "ROLE"
         const val INSERT_DATE: String = "INSERT_DATE"
     }
 
@@ -55,8 +55,8 @@ class User {
     @Column(name = LANGUAGE_CODE, nullable = false)
     var languageCode: String? = null
 
-    @Column(name = ID_ROLE)
-    var roleId: Long? = null
+    @Column(name = ROLE)
+    var role: String? = null
 
     @Column(name = INSERT_DATE, insertable = false)
     var insert_date: Date? = null

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface RuleRepository : JpaRepository<Rule, Long> {
 
-    fun findRuleByKey(key : String?) : Rule?
+    fun findRuleByKey(key: String?): Rule?
 }

@@ -40,7 +40,7 @@ $$
 
         create sequence SQ_RR_ROLE_RULE_RR_ROLE_RULE_ID increment 1 start with 1 cache 10;
 
-        alter table DBS_USER add column if not exists ID_ROLE numeric;
+        alter table DBS_USER add column if not exists ROLE varchar(10);
     end
 $$
 ;

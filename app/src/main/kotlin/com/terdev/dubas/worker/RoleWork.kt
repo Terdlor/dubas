@@ -33,12 +33,12 @@ class RoleWork : CommandWork() {
 
         strBuild.appendLine("user - " + user.userName)
 
-        roleRuleService.getRule(RuleKeys.GET_BRENDS)
-        roleRuleService.getRole(Roles.ADMIN)
         roleRuleService.addRuleInRole(Roles.ADMIN, RuleKeys.GET_BRENDS)
-        val check = roleRuleService.checkRuleInRole(Roles.ADMIN, RuleKeys.GET_BRENDS)
+        roleRuleService.checkRuleInRole(user.role, RuleKeys.GET_BRENDS)
 
-        strBuild.appendLine("право - " + check)
+        roleRuleService.getRuleFromRole(user.role).forEach {
+            strBuild.appendLine("право - " + it.getKey())
+        }
 
         rsSH.sendSimpleNotification(msg.chatId, strBuild.toString())
     }
