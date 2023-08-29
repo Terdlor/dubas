@@ -32,10 +32,10 @@ class RoleWork : CommandWork() {
         strBuild.appendLine("user - " + user.userName)
 
         roleRuleService.addRuleInRole(Roles.ADMIN, RuleKeys.GET_BRENDS)
-        roleRuleService.checkRuleInRole(user.role, RuleKeys.GET_BRENDS)
+        roleRuleService.checkRuleInRole(Roles.valueOf(user.role), RuleKeys.GET_BRENDS)
         roleRuleService.deleteRuleInRole(Roles.ADMIN, RuleKeys.GET_BRENDS)
 
-        roleRuleService.getRuleFromRole(user.role).forEach {
+        roleRuleService.getRuleFromRole(Roles.valueOf(user.role)).forEach {
             strBuild.appendLine("право - " + it.getKey())
         }
 
