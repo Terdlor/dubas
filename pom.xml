@@ -15,6 +15,7 @@
         <module>rol-rul</module>
         <module>app</module>
         <module>liquibase</module>
+        <module>context</module>
     </modules>
 
     <groupId>com.terdev</groupId>
